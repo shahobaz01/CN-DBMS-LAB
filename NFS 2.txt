@@ -1,0 +1,27 @@
+** NFS **
+1. checks if any directory is present is or not : #ls -ld /nfs-share --enter 
+2. if not present(directory) make it using this command : #mkdir /nfs-share --enter 
+3. change permission : #chmod 777 /nfs-share
+                       # ls -ld /nsf-share --enter 
+4. now we have to configure the filesystem
+5. in this newly created file write: /nfs-share 192.168.1.0/24(rw,sync)
+6. exit form this file 
+7. run command : #exportfs -r --enter 
+                 #exportfs -a --enter 
+                 #systemctl restart rpcbind
+                 #systemctl restart nfs 
+                
+8. #showmount -e 192.168.1.44 nfs
+9. #mount 192.168.1.44:/nfs-share /mnt  [for mounting]
+10. to check if it is mounted or not --command : #df -HT
+                                                 #cd /mnt [change directory]
+                                                 #umount /mnt/ [for unmounting]
+11. now open file using vim to check permission: #vim suvankar.txt
+12. now make some changes in here: /nfs-share 192.168.1.0/24(rw,sync,no_root_squash)
+13. exit form that files 
+14. now mount another person's file using there ip address:#mount 192.168.1.45:/nfs-share /mnt
+                                                           #cd /mnt[change directory to mnt]
+                                                           #vim swastik_nfs.txt [enter into swastik file]
+                                                           #cat swastik_nfs.txt[see the content of swastik's file]
+15. the above is only for read only no write permission 
+16. for writing purpose : /nfs-share 192.168.1.0/24(rw.sync) 192.168.1.23(rw,sync,no_root_squash) 192.168.1.47(rw,sync,no_root-squash) --> only those two device who are having these ip addresses can read the file and has access to the file for Editing purpose..

@@ -1,0 +1,60 @@
+NFS:
+
+1. First we'll have to check whether the directory is present or not:  ls -ld /nfs_share
+
+2. Now create the directory if not present: mkdir /nfs_share
+
+    i. Now Change the permission: chmod 777 /nfs_share
+    ii. Check whether permission changed or not: ls -ld /nfs_share
+
+3. Now we will configure it in configuration file: vim /etc/exports
+
+4. Now inside the file we will write: 
+
+    i. /nfs  192.168.1.0/24(rw,sync)  -> there should be no space here
+
+5. Now enter these command after exiting from the configure file:
+
+    i. exportfs -r
+    ii. exportfs -a
+    iii. systemctl restart rpcbind
+    iv. systemctl restart nfs
+
+Configuration part is done
+
+6. To check the directory in your machine : showmount -e
+
+7. To check directory of some other machine: showmount -e {ip_address of nfs server}
+
+8. Now we have to mount the instance of some other device into our own machine: mount 192.168.1.{ip of that device like 43/42/41}:/nfs_share /mnt
+
+9. To check if mount is done or not: df -HT
+
+10. Create a file (txt file): vim aneesh.txt
+
+11. Now move to mnt: cd /mnt
+
+
+12. Now check the content of the file: cat aneesh.txt
+
+13. Now opne the same file through vim to check permission: vim aneesh.txt
+
+14. Now do: cd - and umount /mnt
+
+15. To change the permission to read and write by opening the configure file again:
+
+    i. vim /etc/exports
+    ii. nfs_share 192.168.1.0/24(rw,sync,no_root_squash)
+
+16. Then run those 4 commands again: mount 192.168.1.{friends ip like 45/44/42}:/nfs_share /mnt
+
+17. Now move to mnt: cd /mnt
+
+18. Now modify friend's file: vim swastik_nfs.txt
+    and then save and exit
+
+19. Move out from mnt directory: cd -
+
+20. Now umount again: umount /mnt
+
+21. Check if umounted or not: df -HT

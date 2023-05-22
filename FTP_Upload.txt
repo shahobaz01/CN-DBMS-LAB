@@ -1,0 +1,46 @@
+Do this all under ROOT DIRECTORY
+
+1) Create a file under: mkdir var/ftp/uploading
+
+2) Check if directory is present or not: ls -ld /var/ftp/uploading
+
+3) If directory is not present then create it: mkdir /var/ftp/uploading
+
+4) Change the permission of the created directory: chmod 730 /var/ftp/uploading
+5) Check if permission is changed or not: ls -l /var/ftp
+
+6) Change the group of uploading to ftp: chgrp ftp /var/ftp/uploading
+
+7) Change things inside the configuration file: vim /etc/vsftpd/vsftpd.conf
+   i)Check if: anonymous_enable = YES (is present or not change "NO" to "YES) 
+
+   ii) Now check: anon_upload_enable = YES (Change to "YES" if "NO" is there)
+
+   iii) The ownership of the uploading file will be changed or not: chown_uploads = YES (Change to "YES" if "NO" is there)
+
+    iv) chown_username = daemon(Change from "whoever" to "daemon")
+    
+    v) Write this line manually under chown_username = daemon -> anon_umask = 077
+   
+    vi) Now save the file and exit
+
+8) Now restart the service: systemctl restart vsftpd
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1) Create a file under root: vim paulaneesh7.txt -> write something and save exit
+
+2) Now login to ftp: ftp 192.168.1.43
+    
+    username: ftp
+    password: ftp
+
+3) Now write: dir --> To view the folders present
+
+4) Now change directory to the created folder: cd uploading
+
+5) Now upload the file: put paulaneesh7.txt
+
+6) Exit from ftp: bye
+
+7) Now check the permission of the file under uploading: ls -l /var/ftp/uploading

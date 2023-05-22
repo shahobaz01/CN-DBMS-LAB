@@ -1,0 +1,60 @@
+Do this all under ROOT DIRECTORY
+
+1. Create a directory named: sys_backup
+
+2. The file to backup: etc/vsftpd/vsftpd.conf (vsftpd.conf) --> is the file name
+
+3. Now do this: ls -ld /sys_backup --> to check whether the backup file is present or not
+
+4. If not present: cp /etc/vsftpd/vsftpd.conf  /sys_backup
+
+FIREWALL:
+
+5. systemctl status firewalld : to check the status of the firewalld
+
+6. If firewall is active: systemctl stop firewalld
+
+7. If firewall needs to be restarted : systemctl restart firewalld
+
+#SE LINUX
+
+8. To view the file: cat /etc/selinux/config --> check whether it's disabled or active
+
+
+FTP Configuration file:
+
+9. vim /etc/vsftpd/vsftpd.conf
+
+10. For checking in the file:
+    
+    * anonymous_enable = YES --> check whether this it NO or YES, if NO then change it to YES for allowing FTP
+
+    and then save and exit
+
+
+11. Enter in the terminal:
+
+    * systemctl status vsftpd --> Check whether it's active or not
+
+    * If inactive then --> systemctl start vsftpd
+
+    * Check status again --> systemctl status vsftpd
+
+12. We can download the file, the path where to save the downloaded file : /var/ftp/pub 
+
+13. Create a test file under this path: vim /var/ftp/pub/paulaneesh7.txt
+
+14. Enter into the server : ftp 192.168.1.43
+
+    username = ftp
+    password = ftp
+
+15. Check the directory : dir
+
+16. Change the directory : cd pub
+
+17. Check directory again : dir --> this will show that directory is changed
+
+18. To download the created file or any file present : get shahobaz.txt
+
+19. To logout --> bye

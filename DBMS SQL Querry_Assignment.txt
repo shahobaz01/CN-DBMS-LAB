@@ -1,0 +1,753 @@
+CREATE TABLE CUST (
+  CUST_ID VARCHAR2(3) PRIMARY KEY NOT NULL,
+  LNAME VARCHAR2(15) NOT NULL,
+  FNAME VARCHAR2(15) NOT NULL,
+  AREA VARCHAR2(2),
+  PHONE_NO NUMBER(8)
+);
+
+
+--
+
+CREATE TABLE MOVIE (
+  MV_NO VARCHAR(2) PRIMARY KEY NOT NULL,
+  TITLE VARCHAR2(25) NOT NULL,
+  TYPE VARCHAR2(10) NOT NULL,
+  STAR VARCHAR2(25),
+  PRICE NUMBER(8,2)
+);
+
+--
+
+
+CREATE TABLE INVOICE (
+  INV_NO VARCHAR2(3) PRIMARY KEY NOT NULL,
+  MV_NO VARCHAR(2),
+  CUST_ID VARCHAR2(3),
+  ISSUE_DATE DATE,
+  RETURN_DATE DATE,
+  FOREIGN KEY (CUST_ID) REFERENCES CUST(CUST_ID),
+  FOREIGN KEY (MV_NO) REFERENCES MOVIE(MV_NO)
+);
+
+--
+
+
+ALTER TABLE CUST
+  MODIFY LNAME VARCHAR2(15) NOT NULL;
+--
+
+ALTER TABLE CUST
+  MODIFY FNAME VARCHAR2(15) NOT NULL;
+
+--
+ALTER TABLE MOVIE
+  MODIFY TITLE VARCHAR2(25) NOT NULL;
+
+--
+ALTER TABLE MOVIE
+  MODIFY TYPE VARCHAR2(10) NOT NULL;
+
+--
+ALTER TABLE MOVIE
+  ADD PRICE NUMBER(8,2);
+
+
+----------------------------------------------------------------------
+2
+----------------------------------------------------------
+
+INSERT INTO Cust (cust_id, lname, fname, area, phone_no)
+VALUES ('a01', 'Bayross', 'Ivan', 'sa', 6125467);
+
+INSERT INTO Cust (cust_id, lname, fname, area, phone_no)
+VALUES ('a02', 'Saitwal', 'Vandana', 'mu', 5560379);
+
+INSERT INTO Cust (cust_id, lname, fname, area, phone_no)
+VALUES ('a03', 'Jaguste', 'Pramada', 'da', 4563891);
+
+INSERT INTO Cust (cust_id, lname, fname, area, phone_no)
+VALUES ('a04', 'Navindgi', 'Basu', 'ba', 6125401);
+
+INSERT INTO Cust (cust_id, lname, fname, area, phone_no)
+VALUES ('a05', 'Sreedharan', 'Ravi', 'va', NULL);
+
+INSERT INTO Cust (cust_id, lname, fname, area, phone_no)
+VALUES ('a06', NULL, 'Rukmini', 'gh', 5125274);
+
+--
+
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (1, 'bloody vengeance', 'action', 'jackie chan', 180.95);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (2, 'the firm', 'thriller', 'tom cruise', 200.00);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (3, 'pretty woman', 'romance', 'richard gere', 150.55);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (4, 'home alone', 'comedy', 'macaulay culkin', 150.00);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (5, 'the fugitive', 'thriller', 'harrison ford', 200.00);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (6, 'coma', 'suspense', 'michael douglas', 100.00);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (7, 'dracula', 'horror', 'gary oldman', 150.25);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (8, 'quick change', 'comedy', 'bill murray', 100.00);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (9, 'gone with the wind', 'drama', 'clark gable', 200.00);
+
+INSERT INTO Movie (mv_no, title, type, star, price)
+VALUES (10, 'carry on doctor', 'comedy', 'leslie phillips', 100.00);
+
+--
+
+insert into invoice values ('i01','4','a01','23-jul-93','25-jul-93');
+insert into invoice values ('i02','3','a02','12-aug-93','15-aug-93');
+insert into invoice values ('i03','1','a02','15-aug-93','18-aug-93');
+insert into invoice values ('i04','6','a03','10-sep-93','12-sep-93');
+insert into invoice values ('i05','7','a04','05-aug-93','08-aug-93');
+insert into invoice values ('i06','2','a06','18-sep-93','21-sep-93');
+insert into invoice values ('i07','9','a05','07-jul-93','10-jul-93');
+insert into invoice values ('i08','9','a01','11-aug-93','14-aug-93');
+insert into invoice values ('i09','5','a03','06-jul-93','07-jul-93');
+insert into invoice values ('i10','8','a06','03-sep-93','06-sep-93');
+
+
+---------------------------------------------------------------------------------
+3
+--------------------------------------------------------------------
+--1--
+
+SELECT name FROM cust;
+
+--2--
+
+SELECT * FROM cust;
+
+--3--
+
+SELECT fname, area FROM cust;
+
+--4---
+., ]
+SELECT DISTINCT type FROM movie;
+
+--5--
+
+SELECT 'A) The Invoice No. of Customer Id. ' || cust_id || ' is ' || inv_no || ' and Movie No. is ' || mv_no || '.' AS info_a,
+       cust_id || ' has taken Movie No. ' || mv_no || ' on ' || issue_date || ' and will return on ' || return_date AS info_b
+FROM Invoice;
+
+--6--
+
+UPDATE cust SET phone = '466389' WHERE name = 'prarnada';
+
+--7--
+
+UPDATE invoice SET issue_date = '1993-07-24' WHERE cust_id = 'A01';
+
+--8--
+
+UPDATE movie SET price = 250.00 WHERE title = 'gone with the wind';
+
+--9--
+
+DELETE FROM invoice WHERE inv_no = 'i08';
+//not l 08 there is typing mistake in the question 
+
+--10--
+
+DELETE FROM invoice WHERE return_date < '1993-07-10';
+
+--11--
+
+UPDATE cust SET area = 'vs' WHERE cust_id = 'A05';
+
+--12--
+
+UPDATE invoice SET return_date = '1993-08-16' WHERE inv_no = 'I08';
+
+--13--
+
+SELECT name FROM cust WHERE fname LIKE '_a%';
+
+--14--
+
+SELECT lname FROM cust WHERE lname LIKE 's%' OR lname LIKE 'j%';
+
+--15--
+
+SELECT * FROM cust WHERE area LIKE '_a%';
+
+--16--
+
+SELECT * FROM cust WHERE area IN ('da', 'mu', 'gh');
+
+--17--
+
+SELECT * FROM cust WHERE PHONE_NO > 5550000;
+
+--18--
+
+SELECT *
+FROM Invoice
+WHERE issue_date BETWEEN '01-sep-93' AND '30-sep-93';
+
+--19--
+
+SELECT * FROM invoice
+WHERE cust_id IN ('a01', 'a02');
+
+--20--
+
+SELECT * FROM movie
+WHERE type IN ('action', 'comedy');
+
+--21--
+
+SELECT * FROM movie
+WHERE price > 150 AND price <= 200;
+
+--22--
+
+SELECT title, price, price * 15 AS new_price
+FROM movie
+WHERE price > 150;
+
+--23--
+
+SELECT title, price, price * 15 AS "new-price"
+FROM movie
+WHERE price > 150;
+
+--24--
+
+SELECT * FROM movie
+ORDER BY title;
+
+--25--
+
+SELECT title, type FROM movie
+WHERE type <> 'horror';
+
+--26--!
+
+SELECT cost / (price - 100) AS result FROM movie
+WHERE title = 'home alone';
+
+--27--
+
+SELECT fname, lname, area, cust_id FROM cust
+WHERE phone IS NULL;
+
+--28--
+
+SELECT fname FROM cust
+WHERE lname IS NULL;
+
+--29--!
+
+SELECT m.mv_no, m.title, m.type FROM movie m
+JOIN movie_cast mc ON m.mv_no = mc.mv_no
+JOIN artist a ON mc.star_id = a.art_id
+WHERE a.fname LIKE 'm%';
+
+----
+SELECT mv_no, title, type 
+FROM Movie 
+WHERE star LIKE 'M%';
+-----
+
+--30--
+
+SELECT mv_no, inv_no FROM invoice
+WHERE inv_no < 'i05';
+
+---------------------------------------------------------------------------
+4
+---------------------------------------------------------------------------------
+
+--1--
+
+SELECT title, SQRT(price) AS sqrt_price
+FROM movie;
+
+--2--
+
+SELECT COUNT(*) AS total_customers
+FROM customer;
+
+--3--
+
+SELECT SUM(price) AS total_price
+FROM movie;
+
+--4--
+SELECT AVG(price) AS average_price
+FROM movie;
+--5--
+
+SELECT MAX(price) AS max_price, MIN(price) AS min_price
+FROM movie;
+
+--6--
+
+SELECT COUNT(*) AS count_movies
+FROM movie
+WHERE price >= 150;
+
+--7--
+
+SELECT type, AVG(price) AS average_price
+FROM movie
+GROUP BY type;
+
+--8--
+
+SELECT type, COUNT(*) AS count_movies
+FROM movie
+GROUP BY type;
+
+--9--
+
+
+select type,count(type) as count_movie 
+from movie 
+where type ='comedy' or type = 'thriller'
+group by type
+
+
+--10--
+
+SELECT type, AVG(price) AS average_price
+FROM movie
+WHERE type IN (
+    SELECT type
+    FROM movie
+    GROUP BY type
+    HAVING MAX(price) = 150.00
+)
+GROUP BY type;
+
+--11--
+
+SELECT AVG(price) AS average_price
+FROM movie
+WHERE type IN ('comedy', 'thriller')
+AND price >= 150.00;
+
+--12--!
+
+SELECT inv_no, DATE(issue_date) AS issue_day
+FROM invoice_transaction;
+-----
+
+SELECT inv_no, to_char(issue_date,'dd') 
+FROM invoice
+
+-----
+SELECT inv_no, issue_date as invoice_day
+FROM Invoice;
+
+--13--!
+
+SELECT inv_no, DATE_FORMAT(return_date, '%M') AS return_month
+FROM invoice_transaction;
+--
+SELECT DISTINCT TO_CHAR(return_date, 'Month') AS return_month
+FROM Invoice;
+--
+SELECT DISTINCT return_date AS return_month
+FROM Invoice;
+
+
+--14--
+SELECT inv_no, mv_no, TO_CHAR(ADD_MONTHS(TO_DATE(issue_date,'DD-MON-YY'),1),'dd-month-yy') AS return_date
+FROM Invoice;
+
+------
+
+select to_char(return_date+15,'dd-mm-yyyy') from invoice
+
+
+--15--
+
+SELECT inv_no, DATEDIFF(return_date, NOW()) AS days_elapsed
+FROM invoice_transaction;
+
+---
+SELECT (SYSDATE - return_date) AS days_elapsed
+FROM Invoice;
+---
+SELECT DATEDIFF(NOW(), return_date) AS days_elapsed
+FROM Invoice;
+
+
+---------------------------------------------------------------------------------------------------
+5
+---------------------------------------------------------------------------------------------------
+
+--1--
+
+SELECT mv_no
+FROM Invoice
+WHERE cust_id = 'ivan';
+
+--2--
+
+SELECT cust_id, mv_no
+FROM Invoice;
+
+--3--
+
+SELECT Movies.title, Invoice.cust_id, Invoice.mv_no
+FROM Movies
+INNER JOIN Invoice ON Movies.mv_no = Invoice.mv_no;
+---
+SELECT m.title, i.cust_id, i.mv_no
+FROM Movie m
+INNER JOIN Invoice i ON m.mv_no = i.mv_no;
+
+
+--4--
+
+SELECT Movies.title, Movies.type
+FROM Movies
+INNER JOIN Invoice ON Movies.mv_no = Invoice.mv_no
+WHERE Invoice.cust_id = 'Vandana';
+---
+SELECT Movie.title, Movie.type
+FROM Movie
+INNER JOIN Invoice ON Movie.mv_no = Invoice.mv_no
+INNER JOIN Cust ON Invoice.cust_id = Cust.cust_id
+WHERE Cust.fname = 'Vandana';
+
+
+--5--
+
+SELECT DISTINCT Invoice.cust_id
+FROM Invoice
+INNER JOIN Movies ON Invoice.mv_no = Movies.mv_no
+WHERE Movies.type = 'drama';
+---
+SELECT DISTINCT Cust.fname, Cust.lname
+FROM Cust
+JOIN Invoice ON Cust.cust_id = Invoice.cust_id
+JOIN Movie ON Invoice.mv_no = Movie.mv_no
+WHERE Movie.type = 'drama';
+
+--6--
+
+SELECT CONCAT('The movie taken by ', Customers.fname, ' ', Customers.lname, ' is ', Movies.title) AS movie_taken
+FROM Invoice
+INNER JOIN Customers ON Invoice.cust_id = Customers.cust_id
+INNER JOIN Movies ON Invoice.mv_no = Movies.mv_no
+WHERE Invoice.mv_no >= 3;
+---
+SELECT 'The movie taken by ' || cust.fname || ' ' || cust.lname || ' is ' || m.title || '.' AS result
+FROM Cust
+JOIN Invoice i ON cust.cust_id = i.cust_id
+JOIN Movie m ON i.mv_no = m.mv_no
+WHERE i.mv_no >= 3;
+
+
+--7--
+
+SELECT cust_id
+FROM Invoice
+WHERE mv_no = 9;
+
+--8--
+
+SELECT Cust.fname, Cust.lname, Cust.area
+FROM Cust
+INNER JOIN Invoice ON Cust.cust_id = Invoice.cust_id
+WHERE Invoice.inv_no = 'i10';
+
+--9--
+
+SELECT DISTINCT Customers.fname, Customers.lname, Customers.phone
+FROM Customers
+INNER JOIN Invoice ON Customers.cust_id = Invoice.cust_id
+WHERE Invoice.issue_date < '1993-08-01';
+
+------
+
+SELECT DISTINCT Cust.fname, Cust.lname, Cust.phone_no
+FROM Cust
+INNER JOIN Invoice ON Cust.cust_id = Invoice.cust_id
+WHERE Invoice.issue_date < TO_DATE('01-AUG-93', 'DD-MON-RR');
+
+
+--10--
+
+SELECT Movie.title
+FROM Movie
+INNER JOIN Invoice ON Movie.mv_no = Invoice.mv_no
+WHERE Invoice.cust_id IN ('vandana', 'ivan');
+
+--11--
+
+SELECT Invoice.mv_no, Movie.title
+FROM Invoice
+INNER JOIN Movie ON Invoice.mv_no = Movie.mv_no;
+
+--12--
+
+SELECT DISTINCT Movie.mv_no, Movie.type
+FROM Movie
+INNER JOIN Invoice ON Movie.mv_no = Invoice.mv_no
+WHERE Invoice.cust_id IN ('a01', 'a02');
+
+--13--
+
+SELECT Invoice.cust_id
+FROM Invoice
+INNER JOIN Movie ON Invoice.mv_no = Movie.mv_no
+WHERE Movie.star = 'Tom Cruise';
+
+---14-----
+SELECT Cust.lname, Cust.fname
+FROM Cust
+INNER JOIN Invoice ON Cust.cust_id = Invoice.cust_id;
+
+----15----
+SELECT Cust.lname, Cust.fname
+FROM Cust
+LEFT JOIN Invoice ON Cust.cust_id = Invoice.cust_id
+WHERE Invoice.inv_no IS NULL;
+
+
+
+--------------------------------------------------------------------------------------
+6
+-------------------------------------------------------------------------------------------------
+
+--1--
+
+CREATE VIEW customer_names AS
+SELECT cust_no, fname, lname FROM cust;
+
+--2--
+
+SELECT fname, lname FROM cust;
+
+--3--
+
+CREATE VIEW customers_with_movies AS
+SELECT DISTINCT c.cust_no, c.fname, c.lname
+FROM cust c
+JOIN invoice i ON c.cust_no = i.cust_no;
+
+--4--
+
+CREATE TABLE odd_even_numbers (
+  odd_number INT,
+  even_number INT
+);
+
+--5--
+
+-- Create a sequence for odd numbers
+CREATE SEQUENCE odd_numbers
+  START WITH 1
+  INCREMENT BY 2
+  MAXVALUE 100
+  NOCYCLE
+  NOCACHE;
+
+-- Create a sequence for even numbers
+CREATE SEQUENCE even_numbers
+  START WITH 2
+  INCREMENT BY 2
+  MAXVALUE 100
+  NOCYCLE
+  NOCACHE;
+
+
+--6--
+
+CREATE SEQUENCE movie_seq
+START WITH 10
+INCREMENT BY 1
+MAXVALUE 100;
+
+--7--
+
+INSERT INTO movie (mv_no, title, type, price)
+VALUES (movie_seq.NEXTVAL, 'Some Movie', 'Action', 9.99);
+
+--8--
+
+CREATE INDEX movie_price_idx ON movie (price);
+
+SELECT title, type, price
+FROM movie
+WHERE price > 10;
+
+-----------------------------------------------------------------------------------------
+7
+------------------------------------------------------------------------------------
+
+--1--
+----------
+CREATE USER username IDENTIFIED BY password;
+
+
+GRANT CONNECT, RESOURCE, DBA TO username;
+
+
+-----------
+
+7.2. To grant select, insert, and update permissions on cust and movie tables to a user named 'myuser' from another user named 'scott', you can use the following commands:
+
+
+GRANT SELECT, INSERT, UPDATE ON scott.cust TO myuser;
+GRANT SELECT, INSERT, UPDATE ON scott.movie TO myuser;
+
+-----
+7.3. To assign only insert permission on the invoice table of user 'scott' to a user named 'myuser', you can use the following command:
+
+
+GRANT INSERT ON scott.invoice TO myuser;
+
+--
+
+7.4.
+ To check the permission has been properly granted using system tables, you can query the system table 'USER_TAB_PRIVS'. For example, to check the permissions granted to the user 'myuser' on the 'cust' table, you can use the following command:
+
+
+SELECT * FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'CUST' AND GRANTEE = 'MYUSER';
+
+-
+This command will show you the privileges granted to the user 'myuser' on the 'cust' table.
+
+------
+7.5. To write a PL/SQL block to print the message "Welcome to PL/SQL" on the screen, you can use the following code:
+
+
+BEGIN
+   DBMS_OUTPUT.PUT_LINE('Welcome to PL/SQL');
+END;
+
+
+--------
+7.6.
+
+DECLARE
+  num1 NUMBER := 10;
+  num2 NUMBER := 20;
+  result NUMBER;
+BEGIN
+  result := num1 + num2;
+  DBMS_OUTPUT.PUT_LINE('The sum of ' || num1 || ' and ' || num2 || ' is ' || result);
+END;
+
+
+----------
+7.7. 
+
+DECLARE
+  v_cust_id Invoice.cust_id%TYPE;
+  v_fname Cust.fname%TYPE;
+  v_lname Cust.lname%TYPE;
+  v_issue_date Invoice.issue_date%TYPE;
+  v_return_date Invoice.return_date%TYPE;
+  v_elapsed_days NUMBER;
+BEGIN
+  FOR r IN (SELECT Invoice.cust_id, Cust.fname, Cust.lname, Invoice.issue_date, Invoice.return_date 
+            FROM Invoice 
+            JOIN Cust ON Invoice.cust_id = Cust.cust_id) LOOP
+    v_cust_id := r.cust_id;
+    v_fname := r.fname;
+    v_lname := r.lname;
+    v_issue_date := r.issue_date;
+    v_return_date := r.return_date;
+    v_elapsed_days := TRUNC(v_return_date - v_issue_date);
+
+    IF v_elapsed_days < 2 THEN
+      DBMS_OUTPUT.PUT_LINE('Customer ID ' || v_cust_id || ' (' || v_fname || ' ' || v_lname || ') has issued a movie and the elapsed time between issue date (' || v_issue_date || ') and return date (' || v_return_date || ') is less than two days.');
+    END IF;
+  END LOOP;
+END;
+
+
+-------
+
+
+7.8. 
+
+DECLARE
+  -- Declare variables to hold the input parameters and result
+  num1 NUMBER := 10;
+  num2 NUMBER := 20;
+  result NUMBER;
+  
+  -- Define the function to sum two numbers
+  FUNCTION add_numbers(x NUMBER, y NUMBER) RETURN NUMBER IS
+    z NUMBER;
+  BEGIN
+    z := x + y;
+    RETURN z;
+  END;
+BEGIN
+  -- Call the function and assign the result to a variable
+  result := add_numbers(num1, num2);
+  
+  -- Print the result
+  DBMS_OUTPUT.PUT_LINE('The sum of ' || num1 || ' and ' || num2 || ' is ' || result);
+END;
+
+----
+7.9.
+
+CREATE OR REPLACE TRIGGER check_movie_price
+BEFORE INSERT ON Movie
+FOR EACH ROW
+BEGIN
+    IF :NEW.price > 500 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'The price of the movie cannot be greater than 500');
+    END IF;
+END;
+/
+
+
+ 
+
+-----
+7.10.
+
+ALTER TABLE movie ADD total_issued NUMBER DEFAULT 0;
+
+CREATE OR REPLACE TRIGGER increment_total_issued
+AFTER INSERT ON invoice
+FOR EACH ROW
+BEGIN
+   UPDATE movie SET total_issued = total_issued + 1 WHERE mv_no = :new.mv_no;
+END;
+
+--
+
+
+------------------------------------------------------------------------
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
